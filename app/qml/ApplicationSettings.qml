@@ -870,7 +870,10 @@ QtObject {
                 console.log("Warning: selected profile is not valid; ignoring it")
             }
         }
-
+        
+        if (typeof cmdScaling !== "undefined" && cmdScaling !== null && cmdScaling > 0) {
+            fontScaling = cmdScaling
+        }
         initializedSettings()
     }
 
