@@ -26,6 +26,7 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include <QStyleFactory>
 #include <QMenu>
+#include <unistd.h>
 #endif
 
 QString getNamedArgument(QStringList args, QString name, QString defaultName)
@@ -70,7 +71,7 @@ int main(int argc, char *argv[])
         cout << "  -e <cmd>            Command to execute. This option will catch all following arguments, so use it as the last option." << Qt::endl;
         cout << "  --fullscreen        Run cool-retro-term in fullscreen." << Qt::endl;
         cout << "  -p|--profile <prof> Run cool-retro-term with the given profile." << Qt::endl;
-	cout << "  --scaling <val>     Run cool-retro-term with the given font scaling." << Qt::endl;
+        cout << "  --scaling <val>     Run cool-retro-term with the given font scaling." << Qt::endl;
         cout << "  -h|--help           Print this help." << Qt::endl;
         cout << "  --verbose           Print additional information such as profiles and settings." << Qt::endl;
         return 0;
@@ -182,6 +183,8 @@ int main(int argc, char *argv[])
     dockMenu->addAction(QObject::tr("New Window"), [&requestNewWindow]() { requestNewWindow(); });
     dockMenu->setAsDockMenu();
 #endif
-
+	QObject::connect(&app, &QApplication::aboutToQuit, []() {
+        _exit(0);
+    });
     return app.exec();
 }
